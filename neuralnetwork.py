@@ -1,12 +1,13 @@
-import tensorflow as tf
+""" Imports """
 import keras
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.datasets import fashion_mnist
+from keras._tf_keras.keras.datasets import fashion_mnist
 from PIL import Image
 
 class NeuralNetwork:
+    """ Class Neural Network"""
     def __init__(self, class_names):
         self.class_names = class_names
 
@@ -49,11 +50,15 @@ class NeuralNetwork:
         :input train_x: images train dataset
                train_y: labels train dataset
         """
-        x_train, x_test, y_train, y_test = train_test_split(train_x, train_y, test_size=0.2, random_state=42)
+        (x_train, x_test,
+         y_train, y_test) = train_test_split(train_x, train_y, test_size=0.2, random_state=42)
         model = keras.Sequential([
-            keras.layers.Flatten(input_shape=(28, 28)), # Transforms images two dimenstional to one dimensional
-            keras.layers.Dense(128, activation='relu'), # First layer 128 neuronen
-            keras.layers.Dense(10, activation='softmax'), # Second layer length of 10 (10 classes)
+            # Transforms images two dimenstional to one dimensional
+            keras.layers.Flatten(input_shape=(28, 28)),
+            # First layer 128 neuronen
+            keras.layers.Dense(128, activation='relu'),
+            # Second layer length of 10 (10 classes)
+            keras.layers.Dense(10, activation='softmax'),
         ])
         model.compile(optimizer='adam',
                       loss='sparse_categorical_crossentropy',
@@ -62,6 +67,7 @@ class NeuralNetwork:
         loss, accuracy = model.evaluate(x_test, y_test)  # evaluates the model
 
         print(f"Test accuracy: {accuracy:.3f}")  # Shows the test accuracy
+        print(f"Test loss: {loss:.3f}")  # Shows the test loss
         return model, x_test, y_test
 
     def predict(self, model, x_test, y_test, num_rows, num_cols):
@@ -96,21 +102,19 @@ class NeuralNetwork:
         plt.show()
 
 if __name__ == '__main__':
-    """ Main """
     class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                        'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
-
     nn = NeuralNetwork(class_names)
     x_train, x_test, y_train, y_test = nn.load_prepare_data()
     #nn.visualize(x_train, y_train) # uncomment it to see the traindataset visualize
     model, test_img, test_label = nn.train_model(x_train, y_train)
-    img_path = 'data/vernon.jpg' # change it to your own image path
+    img_path = 'data/vernon.jpg'
+    # input()
+    # change it to your own image path
     img = Image.open(img_path)
     img = img.convert(mode='L')
     new_size = (28, 28)
     img = img.resize(new_size)
     img = np.array(img)
-
     nn.predict(model, img[None,:,:], y_test, 1, 1)
     #nn.predict(model, x_test, y_test, 5, 5) # you can use this to predict with the test data set
-
