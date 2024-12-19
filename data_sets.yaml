@@ -1,0 +1,5 @@
+train: ../data/output/images/train
+val: ../data/output/images/val
+
+nc: 1  # aantal klassen
+names: ['tumor']  # lijst van klasse-namen
