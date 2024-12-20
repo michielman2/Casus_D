@@ -51,7 +51,8 @@ class NeuralNetwork:
                train_y: labels train dataset
         """
         (x_train, x_test,
-         y_train, y_test) = train_test_split(train_x, train_y, test_size=0.2, random_state=42)
+         y_train, y_test) = train_test_split(train_x, train_y,
+                                             test_size=0.2, random_state=42)
         model = keras.Sequential([
             # Transforms images two dimenstional to one dimensional
             keras.layers.Flatten(input_shape=(28, 28)),
@@ -106,15 +107,14 @@ if __name__ == '__main__':
                        'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
     nn = NeuralNetwork(class_names)
     x_train, x_test, y_train, y_test = nn.load_prepare_data()
-    #nn.visualize(x_train, y_train) # uncomment it to see the traindataset visualize
+    nn.visualize(x_train, y_train) # uncomment it to see the traindataset visualize
     model, test_img, test_label = nn.train_model(x_train, y_train)
-    img_path = 'data/vernon.jpg'
-    # input()
-    # change it to your own image path
+    img_path = input('give your path of your image:')
     img = Image.open(img_path)
     img = img.convert(mode='L')
     new_size = (28, 28)
     img = img.resize(new_size)
     img = np.array(img)
     nn.predict(model, img[None,:,:], y_test, 1, 1)
-    #nn.predict(model, x_test, y_test, 5, 5) # you can use this to predict with the test data set
+    # you can use this to predict with the test data set
+    #nn.predict(model, x_test, y_test, 5, 5)
