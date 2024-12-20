@@ -64,7 +64,7 @@ class NeuralNetwork:
         model.compile(optimizer='adam',
                       loss='sparse_categorical_crossentropy',
                       metrics=['accuracy'])
-        model.fit(x_train, y_train, epochs=1) # Fits the model with epochs
+        model.fit(x_train, y_train, epochs=10) # Fits the model with epochs
         loss, accuracy = model.evaluate(x_test, y_test)  # evaluates the model
 
         print(f"Test accuracy: {accuracy:.3f}")  # Shows the test accuracy
